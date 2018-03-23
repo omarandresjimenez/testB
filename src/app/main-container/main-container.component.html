@@ -1,37 +1,81 @@
 <!-- !PAGE CONTENT! -->
 <div class="w3-main" style="margin-left:340px;margin-right:40px">
-  
+  <div *ngIf="!showDetail">
     <!-- Header -->
     <div class="w3-container" style="margin-top:4px" id="showcase">
-      <h2 class="w3-large w3-text-red"><b>Resultados Búsqueda</b></h2>
+      <h2 class="w3-large w3-text-red">
+        <b>Resultados Búsqueda</b>
+      </h2>
       <hr style="width:50px;border:5px solid red" class="w3-round">
     </div>
-    
-    <div class="w3-container" style="margin-top:0px" id="showcase" *ngIf="albums && showCount">
-        <h2 class="w3-large  w3-text-green"><b>{{albums.length}} registros!</b>  </h2>
+
+    <div class="w3-container" style="margin-top:0px" id="showcase" *ngIf="filteralbums && showCount">
+      <h2 class="w3-large  w3-text-green">
+        <b>Last {{filteralbums.length}} records!</b>
+      </h2>
     </div>
-    
+
     <!-- show info -->
-    <ng-container *ngFor="let album of albums">
-    <div class="w3-row-padding">
-      <div class="w3-col m3" style="padding:0px">
-        <div >
-          <img src="{{album?.thumbnailUrl}}" title="{{album?.title}}" style="width:100%; height:250px">
-        </div>
-      </div>
-      <div class="w3-col m6 w3-sand card-2" >
-        <div >
-          <div class="w3-container">
-            <h3>{{album?.title}}</h3>
-              <ul class="maxmargin">
-                    </ul>
-            
+    <ng-container *ngFor="let album of filteralbums; let i = index">
+      <div class="w3-row-padding">
+        <div class="w3-col m4" style="padding:0px">
+          <div>
+            <img src="{{album?.thumbnailUrl}}" title="{{album?.title}}" [ngClass]="{'Color1' : i===0,'Color2' : i===1, 'Color3': i===2}"
+              style="width:100%; height:250px" (click)="viewDetail(album?.albumId)">
           </div>
         </div>
       </div>
-    
-    </div>
-   <br>
-  </ng-container>
-  <!-- End page content -->
+      <div class="w3-row-padding">
+        <div class="w3-col m4 w3-sand ">
+          <div>
+            <div class="w3-container">
+              <h3>{{album?.albumId}} - {{album?.title}}</h3>
+              <ul class="maxmargin">
+              </ul>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <br>
+    </ng-container>
   </div>
+  <div *ngIf="showDetail">
+    <div class="w3-container" style="margin-top:0px" id="showcase">
+      <h2 class="w3-large  w3-text-green">
+        <b>Details Album {{selectedAlbum}}</b>
+      </h2>
+    </div>
+    <div class="w4-row-padding">
+      <ng-container *ngFor="let album of detailAlbum; let i = index">
+        <div class="w3-row-padding">
+          <div class="w3-col m4" style="padding:0px">
+            <div>
+              <img src="{{album?.thumbnailUrl}}" title="{{album?.title}}" [ngClass]="{'Color1' : i===0,'Color2' : i===1}" style="width:100%; height:250px">
+            </div>
+          </div>
+        </div>
+        <div class="w3-row-padding">
+          <div class="w3-col m4 w3-sand ">
+            <div>
+              <div class="w3-container">
+                <h3>{{album.id}} - {{album?.title}}</h3>
+                <ul class="maxmargin">
+                </ul>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <br>
+      </ng-container>
+    </div>
+    <div>
+      <button (click)="showDetail = false">Back</button>
+    </div>
+  </div>
+
+  <!-- End page content -->
+</div>
